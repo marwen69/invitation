@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دعوة زفاف - مروان وفريال</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Arabic Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700;800&family=Reem+Kufi:wght@500;700&family=Scheherazade+New:wght@400;700&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pearl: '#F8FAFC',
+                        silverLight: '#E2E8F0',
+                        silverMid: '#94A3B8',
+                        silverDark: '#334155',
+                        silverDeep: '#1E293B',
+                        chromeDark: '#0F172A',
+                    },
+                    fontFamily: {
+                        amiri: ['Amiri', 'serif'],
+                        ruqaa: ['Aref Ruqaa', 'serif'],
+                        kufi: ['Reem Kufi', 'sans-serif'],
+                        scheherazade: ['Scheherazade New', 'serif'],
+                        cairo: ['Cairo', 'sans-serif'],
+                        tajawal: ['Tajawal', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 35%, #f1f5f9 70%, #ffffff 100%);
+            color: #0f172a;
+            font-family: 'Tajawal', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Luminous Pearl Satin Overlay Pattern */
+        .satin-bg {
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.95) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(203, 213, 225, 0.4) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(255, 255, 255, 0.85) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(226, 232, 240, 0.5) 0px, transparent 50%);
+        }
+
+        /* High-Contrast Charcoal & Dark Metallic Chrome Text Effect */
+        .text-dark-metallic {
+            background: linear-gradient(135deg, #020617 0%, #0f172a 30%, #334155 70%, #1e293b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0px 1px 2px rgba(255, 255, 255, 0.9));
+        }
+
+        .text-silver-accent {
+            background: linear-gradient(135deg, #1e293b 0%, #475569 50%, #0f172a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Glassmorphic Silver Medallion Card */
+        .silver-light-card {
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 2px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 
+                0 20px 50px -10px rgba(148, 163, 184, 0.35),
+                0 10px 20px -5px rgba(203, 213, 225, 0.4),
+                inset 0 0 25px rgba(255, 255, 255, 0.9);
+        }
+
+        /* Ambient Sparkle Canvas */
+        #glitterCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Audio Visualizer Animation */
+        .audio-bar {
+            width: 3px;
+            height: 12px;
+            background-color: #0f172a;
+            border-radius: 2px;
+            transition: height 0.2s ease;
+        }
+
+        .playing .audio-bar:nth-child(1) { animation: bounceBar 0.8s infinite ease-in-out alternate; }
+        .playing .audio-bar:nth-child(2) { animation: bounceBar 0.6s infinite ease-in-out alternate 0.2s; }
+        .playing .audio-bar:nth-child(3) { animation: bounceBar 0.9s infinite ease-in-out alternate 0.4s; }
+        .playing .audio-bar:nth-child(4) { animation: bounceBar 0.7s infinite ease-in-out alternate 0.1s; }
+
+        @keyframes bounceBar {
+            0% { height: 4px; }
+            100% { height: 20px; }
+        }
+
+        .fade-in-entry {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="satin-bg relative min-h-screen flex flex-col justify-between items-center select-none py-6 px-3 sm:px-6">
+
+    <!-- Sparkle Animation Background Canvas -->
+    <canvas id="glitterCanvas"></canvas>
+
+    <header class="relative z-10 w-full max-w-2xl flex justify-between items-center px-2 sm:px-4">
+        <div class="text-xs font-cairo font-bold text-slate-700 tracking-wider">
+            دعوة زفاف
+        </div>
+
+        <!-- Audio Music Toggle -->
+        <button id="musicToggleBtn" class="flex items-center space-x-3 space-x-reverse px-4 py-2 rounded-full silver-light-card text-xs font-cairo text-slate-800 hover:text-black border border-slate-300/80 shadow-sm hover:shadow transition">
+            <span id="musicBtnText">تشغيل الموسيقى</span>
+            <div id="audioVisualizer" class="flex items-end space-x-1 space-x-reverse h-5 w-5">
+                <div class="audio-bar"></div>
+                <div class="audio-bar"></div>
+                <div class="audio-bar"></div>
+                <div class="audio-bar"></div>
+            </div>
+        </button>
+    </header>
+
+    <main class="relative z-10 w-full max-w-2xl my-auto text-center fade-in-entry py-4">
+        <div class="silver-light-card rounded-3xl sm:rounded-[2.5rem] p-6 sm:p-12 relative overflow-hidden">
+            
+            <!-- Delicate Floral Ornament Top -->
+            <div class="text-slate-400 text-xl sm:text-2xl mb-3 opacity-80">
+                ❖ ─── ✦ ─── ❖
+            </div>
+
+            <!-- Bismillah -->
+            <div class="py-2">
+                <p class="font-scheherazade text-2xl sm:text-4xl text-dark-metallic font-bold leading-relaxed">
+                    بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+                </p>
+            </div>
+
+            <!-- Couple Names -->
+            <div class="py-4 flex flex-col items-center justify-center">
+                <h1 class="font-ruqaa text-4xl sm:text-6xl md:text-7xl text-dark-metallic py-2 flex items-center justify-center gap-3 sm:gap-5 flex-wrap leading-tight">
+                    <span>مَرْوَانْ</span>
+                    <span class="text-2xl sm:text-3xl text-rose-600 drop-shadow">♥</span>
+                    <span>فَرِيَالْ</span>
+                </h1>
+            </div>
+
+            <!-- Quranic Verse -->
+            <div class="py-2">
+                <p class="font-amiri text-2xl sm:text-3xl md:text-3xl font-bold leading-relaxed text-slate-800 tracking-wide">
+                    "وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً"
+                </p>
+            </div>
+
+            <!-- Metallic Silver Divider Line -->
+            <div class="flex items-center justify-center space-x-4 space-x-reverse my-4 opacity-90">
+                <div class="h-[1.5px] w-20 md:w-36 bg-gradient-to-r from-transparent via-slate-500 to-transparent"></div>
+                <span class="text-slate-600 text-xs">✦</span>
+                <div class="h-[1.5px] w-20 md:w-36 bg-gradient-to-l from-transparent via-slate-500 to-transparent"></div>
+            </div>
+
+            <!-- Wedding Date Display -->
+            <div class="font-tajawal space-y-1 py-3">
+                <p class="text-3xl sm:text-5xl font-black text-slate-900 tracking-[0.15em] font-serif drop-shadow-sm">
+                    11 • 10 • 2026
+                </p>
+                <p class="text-xs sm:text-sm text-slate-700 tracking-widest font-cairo font-bold pt-2">
+                    الأحد، 11 أكتـوبـر 2026
+                </p>
+            </div>
+
+            <div class="pt-6 border-t border-slate-300/80 mt-4">
+                <p class="font-cairo text-xs sm:text-sm tracking-wider text-slate-700 mb-5 font-extrabold">العد التنازلي للمناسبة السعيدة</p>
+                <div class="grid grid-cols-4 gap-2 sm:gap-4 max-w-lg mx-auto">
+                    <div class="bg-white/90 p-3 sm:p-4 rounded-2xl border border-slate-300/60 shadow-sm">
+                        <div id="daysCount" class="font-tajawal text-2xl sm:text-4xl font-black text-slate-900">00</div>
+                        <div class="text-[10px] sm:text-xs font-cairo text-slate-700 font-bold mt-1">أيـام</div>
+                    </div>
+                    <div class="bg-white/90 p-3 sm:p-4 rounded-2xl border border-slate-300/60 shadow-sm">
+                        <div id="hoursCount" class="font-tajawal text-2xl sm:text-4xl font-black text-slate-900">00</div>
+                        <div class="text-[10px] sm:text-xs font-cairo text-slate-700 font-bold mt-1">ساعـات</div>
+                    </div>
+                    <div class="bg-white/90 p-3 sm:p-4 rounded-2xl border border-slate-300/60 shadow-sm">
+                        <div id="minutesCount" class="font-tajawal text-2xl sm:text-4xl font-black text-slate-900">00</div>
+                        <div class="text-[10px] sm:text-xs font-cairo text-slate-700 font-bold mt-1">دقائـق</div>
+                    </div>
+                    <div class="bg-white/90 p-3 sm:p-4 rounded-2xl border border-slate-300/60 shadow-sm">
+                        <div id="secondsCount" class="font-tajawal text-2xl sm:text-4xl font-black text-slate-900">00</div>
+                        <div class="text-[10px] sm:text-xs font-cairo text-slate-700 font-bold mt-1">ثوانـي</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 text-center text-xs text-slate-600 py-3 font-cairo font-bold tracking-wider">
+        <p>دعوة زفاف • مروان وفريال • 2026</p>
+    </footer>
+
+    <script>
+        /* Silver Particle Glitter Background */
+        const canvas = document.getElementById('glitterCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const particleCount = 75;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2.5 + 0.8;
+                this.alpha = Math.random() * 0.7 + 0.3;
+                this.speedAlpha = (Math.random() * 0.015 + 0.005) * (Math.random() < 0.5 ? 1 : -1);
+                this.speedY = - (Math.random() * 0.25 + 0.1);
+                this.speedX = (Math.random() - 0.5) * 0.2;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.alpha += this.speedAlpha;
+
+                if (this.alpha <= 0.1 || this.alpha >= 0.9) {
+                    this.speedAlpha = -this.speedAlpha;
+                }
+
+                if (this.y < 0 || this.x < 0 || this.x > canvas.width) {
+                    this.reset();
+                    this.y = canvas.height;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(100, 116, 139, ${this.alpha})`;
+                ctx.shadowBlur = 6;
+                ctx.shadowColor = '#FFFFFF';
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function renderParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(renderParticles);
+        }
+        renderParticles();
+
+        /* Countdown Calculation to October 11, 2026 */
+        const weddingDate = new Date('October 11, 2026 18:00:00').getTime();
+
+        function runCountdown() {
+            const now = new Date().getTime();
+            const difference = weddingDate - now;
+
+            if (difference <= 0) {
+                document.getElementById('daysCount').innerText = "00";
+                document.getElementById('hoursCount').innerText = "00";
+                document.getElementById('minutesCount').innerText = "00";
+                document.getElementById('secondsCount').innerText = "00";
+                return;
+            }
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById('daysCount').innerText = days < 10 ? '0' + days : days;
+            document.getElementById('hoursCount').innerText = hours < 10 ? '0' + hours : hours;
+            document.getElementById('minutesCount').innerText = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('secondsCount').innerText = seconds < 10 ? '0' + seconds : seconds;
+        }
+
+        setInterval(runCountdown, 1000);
+        runCountdown();
+
+        /* Ambient Audio Melody Synthesizer */
+        let audioCtx = null;
+        let isAudioPlaying = false;
+        let melodyLoop = null;
+
+        const musicBtn = document.getElementById('musicToggleBtn');
+        const visualizer = document.getElementById('audioVisualizer');
+        const musicText = document.getElementById('musicBtnText');
+
+        function playRomanticMelody() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            const scale = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33];
+            
+            melodyLoop = setInterval(() => {
+                if (!isAudioPlaying) return;
+                
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = 'sine';
+                const freq = scale[Math.floor(Math.random() * scale.length)];
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+                gain.gain.setValueAtTime(0.01, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.07, audioCtx.currentTime + 0.3);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.2);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + 2.2);
+            }, 700);
+        }
+
+        musicBtn.addEventListener('click', () => {
+            if (!isAudioPlaying) {
+                isAudioPlaying = true;
+                visualizer.classList.add('playing');
+                musicText.innerText = "إيقاف الموسيقى";
+                playRomanticMelody();
+            } else {
+                isAudioPlaying = false;
+                visualizer.classList.remove('playing');
+                musicText.innerText = "تشغيل الموسيقى";
+                if (melodyLoop) clearInterval(melodyLoop);
+            }
+        });
+    </script>
+</body>
+</html>
